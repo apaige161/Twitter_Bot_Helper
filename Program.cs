@@ -16,104 +16,62 @@ namespace TwitterBotDotNetHelper
     {
         static void Main(string[] args)
         {
-            /*****TwitterBot post later helper program******/
+            //helper program to Twitter_Bot, schedules tweets
 
-            /***login***/
-
-            //read passwords from file here using your own file path
-
-            string pathOfApiKeys = $@".{Path.DirectorySeparatorChar}api_keys.txt";
-            //read file and put contents into array
-            string[] allKeys = File.ReadAllLines(pathOfApiKeys);
-
-            string ApiKey = allKeys[0];
-            string ApiKeySecret = allKeys[1];
-            string AccessToken = allKeys[2];
-            string AccessTokenSecret = allKeys[3];
-            
-            // Set up your credentials (https://apps.twitter.com)
-            Auth.SetUserCredentials(ApiKey, ApiKeySecret, AccessToken, AccessTokenSecret);
-
-
+            Login();
             //get current time
             DateTime currentTime = DateTime.Now;
-
             //get the user information from main program
             string userChoice = args[0]; //userchoice "3" text or "4" media
-            
+
             if (userChoice == "3") // text
             {
+
                 string textToTweet = args[1]; //grabs the text of tweet
-                string newTimeDateString = args[2]; //grabs the date
-                string newTimeTimeString = args[3]; //grabs the time
-                string newTimeAmPmString = args[4]; //grabs AM or PM
-                
-
-
-                //test
-                /*
-                Console.WriteLine(textToTweet + " is the textToTweet from main");//text
-                Console.WriteLine(newTimeDateString + " is the date from main");//date
-                Console.WriteLine(newTimeTimeString + " is the time from main");//time
-                Console.WriteLine(newTimeAmPmString + " is the AM or PM from main"); //AM or PM
-                */
-
+                string newDate = args[2]; //grabs the date
+                string newTime = args[3]; //grabs the time
+                string newAmPm = args[4]; //grabs AM or PM
 
                 //add strings of DateTime data into a parseable form
-                string newTimeString = newTimeDateString + " " + newTimeTimeString + " " + newTimeAmPmString;
+                string newTimeString = newDate + " " + newTime + " " + newAmPm;
                 //parse to DateTime
                 DateTime NewRealTime = DateTime.Parse(newTimeString);
 
-                //display
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("twitter bot is attempting to post a text tweet");
-                Console.WriteLine($"Your tweet will be published at {NewRealTime}");
-                Console.Write("The text to be posted is: ");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine(textToTweet);
-                Console.ResetColor();
-
+                //display information about what is going to be tweeted
+                DisplayTextTweetInfo(textToTweet, NewRealTime);
+                //runs the wait and post
                 TextWorker(NewRealTime, currentTime, textToTweet);
 
             } //text
 
-            if (userChoice == "4") // media
+            else if (userChoice == "4") // media
             {
+
                 string textToTweet = args[1]; //grabs the text of tweet
                 string filePath = args[2]; //grabs file path of picture
                 string newTimeDateString = args[3]; //grabs the date
                 string newTimeTimeString = args[4]; //grabs the time
                 string newTimeAmPmString = args[5]; //grabs AM or PM
 
-                //test
-                /*
-                Console.WriteLine(textToTweet + " is the textToTweet from main");//text
-                Console.WriteLine(filePath + " is the filepath from main");//date
-                Console.WriteLine(newTimeDateString + " is the date from main");//time
-                Console.WriteLine(newTimeTimeString + " is the time from main");//PM
-                Console.WriteLine(newTimeAmPmString + " is the AM or PM from main"); //date
-                */
-
                 //add strings of DateTime data into a parseable form
                 string newTimeString = newTimeDateString + " " + newTimeTimeString + " " + newTimeAmPmString;
                 //parse to DateTime
                 DateTime NewRealTime = DateTime.Parse(newTimeString);
 
-                //display
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("twitter bot is attempting to post a media tweet");
-                Console.ResetColor();
-                Console.WriteLine($"Your tweet will be published at {NewRealTime}");
-                Console.Write("The text to be posted is: ");
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine(textToTweet);
-                Console.ResetColor();
-
+                //display information about what is going to be tweeted
+                DisplayMediaTweetInfo(textToTweet, NewRealTime);
+                //runs the wait and post
                 MediaWorker(NewRealTime, currentTime, textToTweet, filePath);
             } //media
-            Console.ReadLine();
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Some information was not properly handled from the main program");
+            }
         }
+        
 
+        //tweet text
         public static void TextWorker(DateTime newTime, DateTime currentTime, string textToTweet)
         {
             //datetime compare for while loop
@@ -143,10 +101,9 @@ namespace TwitterBotDotNetHelper
                     break;
                 }
             }
-        } //tweet text
+        } 
 
         //tweet media
-
         public static void MediaWorker(DateTime newTime, DateTime currentTime, string textToTweet, string filePath)
         {
             //datetime compare for while loop
@@ -184,7 +141,52 @@ namespace TwitterBotDotNetHelper
 
             }
 
-        } //media tweet
+        } 
+
+        //login
+        public static void Login()
+        {
+            //read passwords from file here using your own file path
+            string pathOfApiKeys = $@".{Path.DirectorySeparatorChar}api_keys.txt";
+            //read file and put contents into array
+            string[] allKeys = File.ReadAllLines(pathOfApiKeys);
+
+            string ApiKey = allKeys[0];
+            string ApiKeySecret = allKeys[1];
+            string AccessToken = allKeys[2];
+            string AccessTokenSecret = allKeys[3];
+
+            // Set up your credentials (https://apps.twitter.com)
+            Auth.SetUserCredentials(ApiKey, ApiKeySecret, AccessToken, AccessTokenSecret);
+        }
+
+
+        //display text for text tweet
+        public static void DisplayTextTweetInfo(string _textToTweet, DateTime timeToPost)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"twitter bot is attempting to post a text only tweet");
+            Console.ResetColor();
+            Console.WriteLine($"Your tweet will be published at {timeToPost}");
+            Console.Write("The text to be posted is: ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine(_textToTweet);
+            Console.ResetColor();
+        }
+
+        //display text for media tweet
+        public static void DisplayMediaTweetInfo(string _textToTweet, DateTime timeToPost)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"twitter bot is attempting to post a media tweet");
+            Console.ResetColor();
+            Console.WriteLine($"Your tweet will be published at {timeToPost}");
+            Console.Write("The text to be posted is: ");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine(_textToTweet);
+            Console.ResetColor();
+        }
+
 
     }
 }
