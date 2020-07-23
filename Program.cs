@@ -22,7 +22,7 @@ namespace TwitterBotDotNetHelper
 
             //read passwords from file here using your own file path
 
-            string pathOfApiKeys = @".\api_keys.txt";
+            string pathOfApiKeys = $@".{Path.DirectorySeparatorChar}api_keys.txt";
             //read file and put contents into array
             string[] allKeys = File.ReadAllLines(pathOfApiKeys);
 
