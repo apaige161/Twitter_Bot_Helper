@@ -68,6 +68,9 @@ namespace TwitterBotDotNetHelper
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("twitter bot is attempting to post a text tweet");
                 Console.WriteLine($"Your tweet will be published at {NewRealTime}");
+                Console.Write("The text to be posted is: ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine(textToTweet);
                 Console.ResetColor();
 
                 TextWorker(NewRealTime, currentTime, textToTweet);
@@ -83,12 +86,13 @@ namespace TwitterBotDotNetHelper
                 string newTimeAmPmString = args[5]; //grabs AM or PM
 
                 //test
+                /*
                 Console.WriteLine(textToTweet + " is the textToTweet from main");//text
                 Console.WriteLine(filePath + " is the filepath from main");//date
                 Console.WriteLine(newTimeDateString + " is the date from main");//time
                 Console.WriteLine(newTimeTimeString + " is the time from main");//PM
                 Console.WriteLine(newTimeAmPmString + " is the AM or PM from main"); //date
-
+                */
 
                 //add strings of DateTime data into a parseable form
                 string newTimeString = newTimeDateString + " " + newTimeTimeString + " " + newTimeAmPmString;
@@ -98,7 +102,11 @@ namespace TwitterBotDotNetHelper
                 //display
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("twitter bot is attempting to post a media tweet");
+                Console.ResetColor();
                 Console.WriteLine($"Your tweet will be published at {NewRealTime}");
+                Console.Write("The text to be posted is: ");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine(textToTweet);
                 Console.ResetColor();
 
                 MediaWorker(NewRealTime, currentTime, textToTweet, filePath);
@@ -125,7 +133,7 @@ namespace TwitterBotDotNetHelper
                 Thread.Sleep(60000);   //wait for 60 seconds
                 timeCompare = DateTime.Compare(newTime, DateTime.Now);
 
-                /*****post tweet******/
+                //post tweet
                 //runs program after while loop completes
                 if (timeCompare < 0) //currentTime is later than addTime
                 {
@@ -158,7 +166,7 @@ namespace TwitterBotDotNetHelper
                 Thread.Sleep(60000);   //sleep for 60 seconds
                 timeCompare = DateTime.Compare(newTime, DateTime.Now);
 
-                /*****post tweet******/
+                //post tweet
                 //runs program after while loop completes
                 if (timeCompare < 0) //currentTime is later than addTime
                 {
