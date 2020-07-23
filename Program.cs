@@ -30,7 +30,7 @@ namespace TwitterBotDotNetHelper
             string ApiKeySecret = allKeys[1];
             string AccessToken = allKeys[2];
             string AccessTokenSecret = allKeys[3];
-            Console.WriteLine(ApiKey);
+            
             // Set up your credentials (https://apps.twitter.com)
             Auth.SetUserCredentials(ApiKey, ApiKeySecret, AccessToken, AccessTokenSecret);
 
@@ -40,22 +40,23 @@ namespace TwitterBotDotNetHelper
 
             //get the user information from main program
             string userChoice = args[0]; //userchoice "3" text or "4" media
-            Console.WriteLine(userChoice);
+            
             if (userChoice == "3") // text
             {
-                //not getting args[2]
-                //("{0} \"{1}\" {2} {3} {4}", userInput, textToTweet, newTime, newTime, newTime);
                 string textToTweet = args[1]; //grabs the text of tweet
                 string newTimeDateString = args[2]; //grabs the date
                 string newTimeTimeString = args[3]; //grabs the time
                 string newTimeAmPmString = args[4]; //grabs AM or PM
+                
 
 
                 //test
+                /*
                 Console.WriteLine(textToTweet + " is the textToTweet from main");//text
                 Console.WriteLine(newTimeDateString + " is the date from main");//date
                 Console.WriteLine(newTimeTimeString + " is the time from main");//time
                 Console.WriteLine(newTimeAmPmString + " is the AM or PM from main"); //AM or PM
+                */
 
 
                 //add strings of DateTime data into a parseable form
